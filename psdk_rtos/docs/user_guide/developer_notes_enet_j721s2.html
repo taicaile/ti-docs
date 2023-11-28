@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>9.5. Developing Ethernet based applications with Linux + RTOS &mdash; Processor SDK RTOS J721S2</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Processor SDK RTOS J721S2" href="index.html"/>
+        <link rel="up" title="9. Developer Notes" href="developer_notes.html"/>
+        <link rel="next" title="9.6. System Traffic Profiling using CPTracer on J7" href="developer_notes_cptracer.html"/>
+        <link rel="prev" title="9.4. Developing IPC applications" href="developer_notes_ipc.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <header id="tiHeader">
+    <div class="top">
+      <ul>
+        <li id="top_logo">
+          <a href="http://www.ti.com">
+            <img src="_static/img/ti_logo.png"/>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="nav"></div>
+  </header>
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Processor SDK RTOS J721S2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                09_00_01
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_j721s2.html">2. Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firmware_builder.html">3. AM68A Firmware Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sdk_components_j721s2.html">4. SDK Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">5. Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evm_setup_j721s2.html">6. EVM Setup for J721S2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ccs_setup_j721s2.html">7. CCS Setup for J721S2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasheet_sdk_j721s2.html">8. Data Sheet</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="developer_notes.html">9. Developer Notes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_concerto.html">9.1. Understanding concerto makefile system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_bootloaders.html">9.2. Understanding bootloaders in Processor SDK J721S2 (RTOS/Linux)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_mcu1_0_sysfw.html">9.3. MCU1_0 Application Development with SYSFW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_ipc.html">9.4. Developing IPC applications</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">9.5. Developing Ethernet based applications with Linux + RTOS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">9.5.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cpsw-support-software">9.5.2. CPSW Support Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#documentation-references">9.5.3. Documentation References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#source-code-references">9.5.4. Source Code References</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#enet-lld">9.5.4.1. Enet LLD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lwip">9.5.4.2. lwIP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-applications">9.5.4.3. Example applications</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started-on-cpsw">9.5.5. Getting started on CPSW</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-ethernet-port-mode">9.5.5.1. Configuring Ethernet port mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-enet-loopback-example">9.5.5.2. Run Enet loopback example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-enet-lwip-example-tcp-ip-example">9.5.5.3. Run Enet lwIP example (TCP/IP example)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#integrate-new-phy-in-enet">9.5.5.4. Integrate new PHY in Enet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modify-the-examples-to-support-your-board-configuration">9.5.5.5. Modify the examples to support your board configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_cptracer.html">9.6. System Traffic Profiling using CPTracer on J7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_security_build.html">9.7. Developing with High Security Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_psdkla.html">9.8. Using Processor SDK Linux with Processor SDK RTOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_memory_map.html">9.9. Understanding and updating SDK memory map for J721S2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_tidl.html">9.10. Developing deep learning applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_hwa.html">9.11. Developing HW accelerator applications with OpenVX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_image_sensor.html">9.12. Adding new image sensor to PSDK RTOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_ddr_inline_ecc.html">9.13. Enabling TI’s inline ECC for DDR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_display_resolution.html">9.14. Changing Display Resolution in Vision Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_dma_kernel.html">9.15. Enabled block-based memory access in OpenVX kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_dmpac.html">9.16. Running SDE and DOF for 2M-Pixel Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_migration_guide.html">9.17. SDK 8.6 -&gt; SDK 9.0 Migration Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes_tda4_latest_faqs.html">9.18. Latest FAQs on TDA4</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="documentation_tarball.html">10. Documentation Tarball</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Processor SDK RTOS J721S2</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="developer_notes.html"><span class="section-number">9. </span>Developer Notes</a> &raquo;</li>
+      
+    <li><span class="section-number">9.5. </span>Developing Ethernet based applications with Linux + RTOS</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developing-ethernet-based-applications-with-linux-rtos">
+<h1><span class="section-number">9.5. </span>Developing Ethernet based applications with Linux + RTOS<a class="headerlink" href="#developing-ethernet-based-applications-with-linux-rtos" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2><span class="section-number">9.5.1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Common Port Switch (CPSW) provides Ethernet packet communication for the device. The total
+ports includes the following:</p>
+<ul class="simple">
+<li><p>Internal Host Port which provides the packet streaming interface to the device cores</p></li>
+<li><p>External MAC Port supporting the following:</p>
+<ul>
+<li><p>Reduced Media Independent Interface (RMII)</p></li>
+<li><p>Reduced Gigabit Media Independent Interface (RGMII)</p></li>
+</ul>
+</li>
+</ul>
+<p>Note that the MII modes supported vary based on device variant, please refer to the device’s TRM
+for the MII modes supported for each CPSW instance..</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>J721S2 has 2 instances</p>
+<ul>
+<li><p>2-port (CPSW2G) in MCU domain (MCU_CPSW0)</p></li>
+<li><p>2-port (CPSW2G) in Main domain (CPSW2)</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>CPSW instance is commonly referred with number of ports suffixed to the CPSW. 2 port instances are
+referred to as CPSW2G.</p>
+</div>
+</div>
+<div class="section" id="cpsw-support-software">
+<h2><span class="section-number">9.5.2. </span>CPSW Support Software<a class="headerlink" href="#cpsw-support-software" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><strong>Enet LLD</strong> is low level driver residing in the PDK. It supports both CPSW2G instances in the SoC and provides HAL layer for
+higher level stacks.</p></li>
+<li><p><strong>TCP/IP Stack</strong> - Open source lwIP stack.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>lwIP network interface driver (lwipif) is adaptation layer connecting Enet LLD to lwIP stack. This lwIP adaptation layer is part of
+Enet LLD and supports both CPSW2G instances with lwIP TCP/IP applications.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>PTP Stack</strong> - PDK includes a test PTP stack used mainly to validate and demonstrate time synchronization integration with CPSW.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Note that this is <strong>not a production</strong> stack.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>The scope of this developer note is to point to various documentation and source code resources available
+within the SDK (RTOS) to understand and use CPSW2G using Enet LLD in an user application.</p>
+</div>
+<div class="section" id="documentation-references">
+<h2><span class="section-number">9.5.3. </span>Documentation References<a class="headerlink" href="#documentation-references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 27%" />
+<col style="width: 48%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SDK Component</p></th>
+<th class="head"><p>Documentation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Section</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p><a href="../../../pdk_j721s2_09_00_01_04/docs/apiguide/j721s2/html/index.html" target="_blank">LINK</a></p></td>
+<td><p>Enet API guide</p></td>
+<td><p>Enet Driver</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p><a href="../../../pdk_j721s2_09_00_01_04/docs/userguide/j721s2/modules/enet.html" target="_blank">LINK</a></p></td>
+<td><p>Enet Module User’s Guide - driver, examples</p></td>
+<td><p>Full document</p></td>
+</tr>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p><a href="../../../pdk_j721s2_09_00_01_04/docs/apiguide/j721s2/html/enet_integration_guide_top.html" target="_blank">LINK</a></p></td>
+<td><p>Enet Integration Guide - further details about Enet LLD initialization</p></td>
+<td><p>Full document</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p><a href="../../../pdk_j721s2_09_00_01_04/docs/userguide/j721s2/modules/enet_lwip_userguide.html" target="_blank">LINK</a></p></td>
+<td><p>lwIP network interface User’s Guide and Migration Guide</p></td>
+<td><p>Full document</p></td>
+</tr>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p><a href="../../../pdk_j721s2_09_00_01_04/docs/apiguide/j721s2/html/enetphy_guide_top.html" target="_blank">LINK</a></p></td>
+<td><p>PHY integration guide - to help integrating new PHY with Enet LLD</p></td>
+<td><p>Implementing a New PHY Driver</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p><a href="../../../pdk_j721s2_09_00_01_04/docs/apiguide/j721s2/html/enetphy_link_config_top.html" target="_blank">LINK</a></p></td>
+<td><p>Link Configuration Guidelines</p></td>
+<td><p>Link Configuration Guidelines</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="source-code-references">
+<h2><span class="section-number">9.5.4. </span>Source Code References<a class="headerlink" href="#source-code-references" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="enet-lld">
+<h3><span class="section-number">9.5.4.1. </span>Enet LLD<a class="headerlink" href="#enet-lld" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 51%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SDK Component</p></th>
+<th class="head"><p>File / Folder</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/drv/enet/enet.h</p></td>
+<td><p>Enet LLD interface for both CPSW2G instances</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/drv/enet/include/phy/enetphy.h</p></td>
+<td><p>PHY LLD driver interface</p></td>
+</tr>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/drv/enet/lwipif/inc/lwipif2enet_appif.h</p></td>
+<td><p>App interface of the Enet-based lwIP network interface driver</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/drv/board/</p></td>
+<td><p>Board drivers for GESI board</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="lwip">
+<h3><span class="section-number">9.5.4.2. </span>lwIP<a class="headerlink" href="#lwip" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 51%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SDK Component</p></th>
+<th class="head"><p>File / Folder</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/transport/lwip/lwip-stack/src/include</p></td>
+<td><p>lwIP TCP/IP header files</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/transport/lwip/lwip-contrib/apps</p></td>
+<td><p>lwIP contrib application header files</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="example-applications">
+<h3><span class="section-number">9.5.4.3. </span>Example applications<a class="headerlink" href="#example-applications" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 47%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>SDK Component</p></th>
+<th class="head"><p>File / Folder</p></th>
+<th class="head"><p>Decription</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/drv/enet/examples/enet_loopback_test</p></td>
+<td><p>MCU CPSW2G internal loopback example mcu1_0, and Main CPSW2G on mcu2_0</p></td>
+</tr>
+<tr class="row-odd"><td><p>PDK</p></td>
+<td><p>pdk/packages/ti/drv/enet/examples/enet_lwip_example</p></td>
+<td><p>lwIP integration example for MCU CPSW2G on mcu1_0 and Main CPSW2G on mcu2_0</p></td>
+</tr>
+</tbody>
+</table>
+<p>The MAC port allocation in TI J721S2 EVM is as follows:</p>
+<ul class="simple">
+<li><p>MCU CPSW2G - use the Ethernet port located in the J7X Common Processor Board labeled as <cite>MCU_ENET</cite>.</p></li>
+<li><p>Main CPSW2G - use the Ethernet port located in the GESI board labeled as <cite>PRG0_RGMII1_B</cite>.</p></li>
+</ul>
+<p>Make sure that the correct port is used when running the Enet LLD example applications.</p>
+</div>
+</div>
+<div class="section" id="getting-started-on-cpsw">
+<h2><span class="section-number">9.5.5. </span>Getting started on CPSW<a class="headerlink" href="#getting-started-on-cpsw" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Refer to Enet module documentation [<a href="../../../pdk_j721s2_09_00_01_04/docs/userguide/j721s2/modules/enet.html" target="_blank">LINK</a>] for information about Enet LLD key <strong>APIs</strong> and
+the <strong>Examples</strong> section for available examples on this platform.</p></li>
+<li><p>Refer to Enet LLD integration guide [<a href="../../../pdk_j721s2_09_00_01_04/docs/apiguide/j721s2/html/enet_integration_guide_top.html" target="_blank">LINK</a>] for a further details about the initialization
+of an Ethernet peripheral via Enet LLD.</p></li>
+</ul>
+<div class="section" id="configuring-ethernet-port-mode">
+<h3><span class="section-number">9.5.5.1. </span>Configuring Ethernet port mode<a class="headerlink" href="#configuring-ethernet-port-mode" title="Permalink to this headline">¶</a></h3>
+<p>Based on your board configuration, port can be in RMII, RGMII etc. mode. You need to do below to configure port in
+required mode.</p>
+<ul>
+<li><p>Configure port ENET control to required mode using board library.</p></li>
+<li><p>Configure CPSW interface.</p>
+<p>For RMII, it should be configured to below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">interface</span><span class="o">-&gt;</span><span class="n">layerType</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">ENET_MAC_LAYER_MII</span><span class="p">;</span>
+<span class="n">interface</span><span class="o">-&gt;</span><span class="n">sublayerType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ENET_MAC_SUBLAYER_REDUCED</span><span class="p">;</span>
+<span class="n">interface</span><span class="o">-&gt;</span><span class="n">variantType</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">ENET_MAC_VARIANT_NONE</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>For RGMII, it should be configured to below:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">interface</span><span class="o">-&gt;</span><span class="n">layerType</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">ENET_MAC_LAYER_GMII</span><span class="p">;</span>
+<span class="n">interface</span><span class="o">-&gt;</span><span class="n">sublayerType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ENET_MAC_SUBLAYER_REDUCED</span><span class="p">;</span>
+<span class="n">interface</span><span class="o">-&gt;</span><span class="n">variantType</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">ENET_MAC_VARIANT_NONE</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="run-enet-loopback-example">
+<h3><span class="section-number">9.5.5.2. </span>Run Enet loopback example<a class="headerlink" href="#run-enet-loopback-example" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>We recommend running Enet loopback example first as this doesn’t have any dependency on board/EVM set up</p></li>
+<li><p>See PDK user guide [<a href="../../../pdk_j721s2_09_00_01_04/docs/pdk_introduction.html#Documentation" target="_blank">LINK</a>], section <strong>Build Steps</strong> for build steps</p></li>
+</ul>
+</div>
+<div class="section" id="run-enet-lwip-example-tcp-ip-example">
+<h3><span class="section-number">9.5.5.3. </span>Run Enet lwIP example (TCP/IP example)<a class="headerlink" href="#run-enet-lwip-example-tcp-ip-example" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Once loopback example is run, you can run enet_lwip_example which uses lwIP stack for TCP/IP applications.</p></li>
+<li><p>You need to connect EVM to PC running DHCP server. You should see IP printed on UART after running the example.
+The PDK Enet examples uses UART based on core it is running. Refer to PDK documentation for core-to-UART mapping.
+If you want to use static IP configuration, edit enet_lwip_example/lwipcfg.h to enable static IP.</p></li>
+<li><p>You can ping to board using this IP address</p></li>
+<li><p>You can also run iperf2 test (Enet LLD app is <cite>server</cite>, external PC is <cite>client</cite>).</p></li>
+</ul>
+</div>
+<div class="section" id="integrate-new-phy-in-enet">
+<h3><span class="section-number">9.5.5.4. </span>Integrate new PHY in Enet<a class="headerlink" href="#integrate-new-phy-in-enet" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>You need to add new PHY driver if existing PHY drivers present in enet/src/phy/* does not support PHY present on your Board.</p></li>
+<li><p>Refer to PHY integration guide [<a href="../../../pdk_j721s2_09_00_01_04/docs/apiguide/j721s2/html/enetphy_guide_top.html" target="_blank">LINK</a>] which has details for adding support for new PHY in Enet LLD.</p></li>
+</ul>
+</div>
+<div class="section" id="modify-the-examples-to-support-your-board-configuration">
+<h3><span class="section-number">9.5.5.5. </span>Modify the examples to support your board configuration<a class="headerlink" href="#modify-the-examples-to-support-your-board-configuration" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Modify examples to change PHY address, speed (10M/100M/1G etc.) setting, mode (RMII/RGMII etc.) settings.</p></li>
+<li><p>Rebuild the example and run on your board. You should be able to see data transfer happening.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="developer_notes_cptracer.html" class="btn btn-neutral float-right" title="9.6. System Traffic Profiling using CPTracer on J7" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="developer_notes_ipc.html" class="btn btn-neutral" title="9.4. Developing IPC applications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <a href="http://www.ti.com/corp/docs/legal/copyright.shtml">&copy; Copyright 1995-2022</a>, Texas Instruments Incorporated. All rights reserved. <br>
+      <a href="http://www.ti.com/corp/docs/legal/trademark/trademrk.htm">Trademarks</a> | <a href="http://www.ti.com/corp/docs/legal/privacy.shtml">Privacy policy</a> | <a href="http://www.ti.com/corp/docs/legal/termsofuse.shtml">Terms of use</a> | <a href="http://www.ti.com/lsds/ti/legal/termsofsale.page">Terms of sale</a>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+        });
+
+      var menuHeight = window.innerHeight;
+
+      var contentOffset = $(".wy-nav-content-wrap").offset();
+      var contentHeight = $(".wy-nav-content-wrap").height();
+      var contentBottom = contentOffset.top + contentHeight;
+
+      function setNavbarTop() {
+          var scrollTop = $(window).scrollTop();
+          var maxTop = scrollTop + menuHeight;
+
+          // If past the header
+          if (scrollTop > contentOffset.top && maxTop < contentBottom) {
+            stickyTop = scrollTop - contentOffset.top;
+          } else if (maxTop > contentBottom) {
+            stickyTop = scrollTop - contentOffset.top - (maxTop - contentBottom);
+          } else {
+            stickyTop = 0;
+          }
+
+          $(".wy-nav-side").css("top", stickyTop);
+      }
+
+      $(document).ready(function() {
+        setNavbarTop();
+        $(window).scroll(function () {
+          setNavbarTop();
+        });
+      });
+  </script>
+   
+
+</body>
+</html>

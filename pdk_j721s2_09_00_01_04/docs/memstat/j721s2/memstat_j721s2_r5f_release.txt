@@ -1,0 +1,96 @@
+
+Memstat for j721s2 r5f release build...
+
+Library Name                            :         CODE         DATA          BSS
+---------------------------------------------------------------------------------
+csirx.aer5f(mcu2_0)                     :        18912         3777       198912
+csitx.aer5f(mcu2_0)                     :        17968        27608        10752
+dss.aer5f(mcu2_0)                       :       118544       185446       135200
+enet.aer5f(r5f)                         :       124916        32898        73796
+enetphy.aer5f(mcu1_0)                   :        11836         4270         3629
+enetphy.aer5f(mcu2_0)                   :        11836         4270         3629
+enetphy.aer5f(mcu2_1)                   :        11836         4270         3629
+enetsoc.aer5f(mcu1_0)                   :         2036        69238            0
+enetsoc.aer5f(mcu2_0)                   :         2036        69238            0
+enetsoc.aer5f(mcu2_1)                   :         2036        69238            0
+fvid2.aer5f(r5f)                        :        13436         8890         2736
+ipc.aer5f(mcu1_0)                       :        13480         4353         7932
+ipc.aer5f(mcu1_1)                       :        13480         4353         7932
+ipc.aer5f(mcu2_0)                       :        13480         4353         7932
+ipc.aer5f(mcu2_1)                       :        13480         4353         7932
+ipc.aer5f(mcu3_0)                       :        13480         4353         7932
+ipc.aer5f(mcu3_1)                       :        13480         4353         7932
+ipc_baremetal.aer5f(mcu1_0)             :        12272         4178         7932
+ipc_baremetal.aer5f(mcu1_1)             :        12272         4178         7932
+ipc_baremetal.aer5f(mcu2_0)             :        12272         4178         7932
+ipc_baremetal.aer5f(mcu2_1)             :        12272         4178         7932
+ipc_baremetal.aer5f(mcu3_0)             :        12272         4178         7932
+ipc_baremetal.aer5f(mcu3_1)             :        12272         4178         7932
+lwipcontrib_freertos.aer5f(r5f)         :        28382        23941         4360
+lwipif_freertos.aer5f(r5f)              :        15356          655       199312
+lwipport_freertos.aer5f(r5f)            :         4372          747           16
+lwipstack_freertos.aer5f(r5f)           :       254928        40235         3888
+pmic.aer5f(r5f)                         :        58728         1862            0
+pm_lib.aer5f(r5f)                       :         1492            0            0
+pm_lib_optimized.aer5f(r5f)             :         1492            0            0
+rm_pm_hal.aer5f(mcu1_0)                 :        73312        46068         5061
+sbl_lib_cust.aer5f(r5f)                 :        10092         4519          104
+sbl_lib_cust_hs.aer5f(r5f)              :        10096         4519          104
+sbl_lib_emmc.aer5f(r5f)                 :        11876         5456            4
+sbl_lib_mmcsd.aer5f(r5f)                :        11648         5335            4
+sbl_lib_mmcsd_hlos.aer5f(r5f)           :        11648         5335            4
+sbl_lib_mmcsd_hs.aer5f(r5f)             :        11700         5388            4
+sbl_lib_ospi.aer5f(r5f)                 :        12416         5251          104
+sbl_lib_ospi_hlos.aer5f(r5f)            :        12560         5289          104
+sbl_lib_ospi_hlos_hs.aer5f(r5f)         :        12564         5289          104
+sbl_lib_ospi_hs.aer5f(r5f)              :        12420         5251          104
+sbl_lib_ospi_nondma.aer5f(r5f)          :        10384         4642          104
+sbl_lib_ospi_nondma_hs.aer5f(r5f)       :        10388         4642          104
+sbl_lib_uart.aer5f(r5f)                 :        11788         5482            4
+sbl_lib_uart_hs.aer5f(r5f)              :        11792         5482            4
+sciclient.aer5f(mcu1_0)                 :        21048        12534           48
+sciclient.aer5f(mcu1_1)                 :        19804         7934           48
+sciclient.aer5f(mcu2_0)                 :        19804         7934           48
+sciclient.aer5f(mcu2_1)                 :        19804         7934           48
+sciclient.aer5f(mcu3_0)                 :        19804         7934           48
+sciclient.aer5f(mcu3_1)                 :        19800         7934           48
+sciclient_direct.aer5f(mcu1_0)          :        24108        12546           48
+sciclient_direct_hs.aer5f(mcu1_0)       :        24108        19022           48
+sciclient_hs.aer5f(mcu1_0)              :        21048        19010           48
+sciclient_hs.aer5f(mcu1_1)              :        19804         7934           48
+sciclient_hs.aer5f(mcu2_0)              :        19804         7934           48
+sciclient_hs.aer5f(mcu2_1)              :        19804         7934           48
+sciclient_hs.aer5f(mcu3_0)              :        19804         7934           48
+sciclient_hs.aer5f(mcu3_1)              :        19800         7934           48
+sciserver_baremetal.aer5f(mcu1_0)       :         2800         3441            0
+sciserver_tirtos.aer5f(mcu1_0)          :         3796         3626         9078
+ti.board.aer5f(r5f)                     :        41836        78638         4417
+ti.csl.aer5f(r5f)                       :       214428        31492            0
+ti.csl.init.aer5f(r5f)                  :         1472          792            0
+ti.drv.gpio.aer5f(r5f)                  :         3512        10541         1152
+ti.drv.i2c.aer5f(r5f)                   :         6516          540            0
+ti.drv.mcasp.aer5f(r5f)                 :        20728          247           40
+ti.drv.mmcsd.aer5f(r5f)                 :        16316          566         1033
+ti.drv.mmcsd.dma.aer5f(r5f)             :        16316          566         1033
+ti.drv.spi.aer5f(r5f)                   :        12828         4148            0
+ti.drv.spi.dma.aer5f(r5f)               :        16516         4148            0
+ti.drv.uart.aer5f(r5f)                  :         9372         1190            0
+ti.drv.uart_console.aer5f(r5f)          :         4484           43            0
+ti.drv.uart.dma.aer5f(r5f)              :        11380         1190            0
+ti.kernel.freertos.aer5f(mcu1_0)        :        25924         1355        71764
+ti.kernel.freertos.aer5f(mcu1_1)        :        25924         1355        71764
+ti.kernel.freertos.aer5f(mcu2_0)        :        25924         1355        71764
+ti.kernel.freertos.aer5f(mcu2_1)        :        25924         1355        71764
+ti.kernel.freertos.aer5f(mcu3_0)        :        25924         1355        71764
+ti.kernel.freertos.aer5f(mcu3_1)        :        25924         1355        71764
+ti.osal.aer5f(r5f)                      :        15992         3242        70352
+ti.osal.nonos.aer5f(r5f)                :         7520         2704          328
+udma.aer5f(mcu1_0)                      :        57820        15124            0
+udma.aer5f(mcu1_1)                      :        57820        15124            0
+udma.aer5f(mcu2_0)                      :        57828        15124            0
+udma.aer5f(mcu2_1)                      :        57828        15124            0
+udma.aer5f(mcu3_0)                      :        57828        15124            0
+udma.aer5f(mcu3_1)                      :        57828        15124            0
+---------------------------------------------------------------------------------
+Total Size                              :      2285990      1104157      1259649
+---------------------------------------------------------------------------------

@@ -1,0 +1,154 @@
+
+Developing Ethernet based applications with Linux + RTOS
+========================================================
+
+Introduction
+------------
+
+Common Port Switch (CPSW) provides Ethernet packet communication for the device. The total
+ports includes the following:
+
+- Internal Host Port which provides the packet streaming interface to the device cores
+- External MAC Port supporting the following:
+
+  - Reduced Media Independent Interface (RMII)
+  - Reduced Gigabit Media Independent Interface (RGMII)
+
+Note that the MII modes supported vary based on device variant, please refer to the device's TRM
+for the MII modes supported for each CPSW instance..
+
+  - |platform| has 2 instances
+
+    - 2-port (CPSW2G) in MCU domain (MCU_CPSW0)
+    - 2-port (CPSW2G) in Main domain (CPSW2)
+
+.. NOTE::
+
+   CPSW instance is commonly referred with number of ports suffixed to the CPSW. 2 port instances are
+   referred to as CPSW2G.
+
+CPSW Support Software
+---------------------
+
+* **Enet LLD** is low level driver residing in the PDK. It supports both CPSW2G instances in the SoC and provides HAL layer for
+  higher level stacks.
+
+* **TCP/IP Stack** - Open source lwIP stack.
+
+   * lwIP network interface driver (lwipif) is adaptation layer connecting Enet LLD to lwIP stack. This lwIP adaptation layer is part of
+     Enet LLD and supports both CPSW2G instances with lwIP TCP/IP applications.
+
+* **PTP Stack** - PDK includes a test PTP stack used mainly to validate and demonstrate time synchronization integration with CPSW.
+
+   - Note that this is **not a production** stack.
+
+The scope of this developer note is to point to various documentation and source code resources available
+within the SDK (RTOS) to understand and use CPSW2G using Enet LLD in an user application.
+
+Documentation References
+------------------------
+
+=============   ============================================= ================================================================================ =========
+SDK Component   Documentation                                 Description                                                                       Section
+=============   ============================================= ================================================================================ =========
+PDK             |pdk_api_guide|                               Enet API guide                                                                   Enet Driver
+PDK             |enet_module_user_guide|                      Enet Module User's Guide - driver, examples                                      Full document
+PDK             |enet_integration_guide|                      Enet Integration Guide - further details about Enet LLD initialization           Full document
+PDK             |enet_lwip_user_guide|                        lwIP network interface User's Guide and Migration Guide                          Full document
+PDK             |enet_phy_integration_guide|                  PHY integration guide - to help integrating new PHY with Enet LLD                Implementing a New PHY Driver
+PDK             |enet_phy_link_configuration|                 Link Configuration Guidelines                                                    Link Configuration Guidelines
+=============   ============================================= ================================================================================ =========
+
+Source Code References
+----------------------
+
+Enet LLD
+*********
+
+=============   ============================================================================== ===============================================================
+SDK Component   File / Folder                                                                  Description
+=============   ============================================================================== ===============================================================
+PDK             pdk/packages/ti/drv/enet/enet.h                                                Enet LLD interface for both CPSW2G instances
+PDK             pdk/packages/ti/drv/enet/include/phy/enetphy.h                                 PHY LLD driver interface
+PDK             pdk/packages/ti/drv/enet/lwipif/inc/lwipif2enet_appif.h                        App interface of the Enet-based lwIP network interface driver
+PDK             pdk/packages/ti/drv/board/                                                     Board drivers for GESI board
+=============   ============================================================================== ===============================================================
+
+lwIP
+******
+=============   ============================================================================== ===============================================================
+SDK Component   File / Folder                                                                  Description
+=============   ============================================================================== ===============================================================
+PDK             pdk/packages/ti/transport/lwip/lwip-stack/src/include                          lwIP TCP/IP header files
+PDK             pdk/packages/ti/transport/lwip/lwip-contrib/apps                               lwIP contrib application header files
+=============   ============================================================================== ===============================================================
+
+
+Example applications
+********************
+=============   ============================================================================== ===============================================================
+SDK Component   File / Folder                                                                  Decription
+=============   ============================================================================== ===============================================================
+PDK             pdk/packages/ti/drv/enet/examples/enet_loopback_test                           MCU CPSW2G internal loopback example mcu1_0, and Main CPSW2G on mcu2_0
+PDK             pdk/packages/ti/drv/enet/examples/enet_lwip_example                            lwIP integration example for MCU CPSW2G on mcu1_0 and Main CPSW2G on mcu2_0
+=============   ============================================================================== ===============================================================
+
+The MAC port allocation in TI J721S2 EVM is as follows:
+
+- MCU CPSW2G - use the Ethernet port located in the J7X Common Processor Board labeled as `MCU_ENET`.
+- Main CPSW2G - use the Ethernet port located in the GESI board labeled as `PRG0_RGMII1_B`.
+
+Make sure that the correct port is used when running the Enet LLD example applications.
+
+
+Getting started on CPSW
+-----------------------
+- Refer to Enet module documentation [|enet_module_user_guide|] for information about Enet LLD key **APIs** and
+  the **Examples** section for available examples on this platform.
+- Refer to Enet LLD integration guide [|enet_integration_guide|] for a further details about the initialization
+  of an Ethernet peripheral via Enet LLD.
+
+Configuring Ethernet port mode
+******************************
+Based on your board configuration, port can be in RMII, RGMII etc. mode. You need to do below to configure port in
+required mode.
+
+- Configure port ENET control to required mode using board library.
+- Configure CPSW interface.
+
+  For RMII, it should be configured to below::
+
+    interface->layerType    = ENET_MAC_LAYER_MII;
+    interface->sublayerType = ENET_MAC_SUBLAYER_REDUCED;
+    interface->variantType  = ENET_MAC_VARIANT_NONE;
+
+  For RGMII, it should be configured to below::
+
+    interface->layerType    = ENET_MAC_LAYER_GMII;
+    interface->sublayerType = ENET_MAC_SUBLAYER_REDUCED;
+    interface->variantType  = ENET_MAC_VARIANT_NONE;
+
+
+Run Enet loopback example
+*************************
+- We recommend running Enet loopback example first as this doesn't have any dependency on board/EVM set up
+- See PDK user guide [|pdk_user_guide|], section **Build Steps** for build steps
+
+Run Enet lwIP example (TCP/IP example)
+**************************************************
+- Once loopback example is run, you can run enet_lwip_example which uses lwIP stack for TCP/IP applications.
+- You need to connect EVM to PC running DHCP server. You should see IP printed on UART after running the example.
+  The PDK Enet examples uses UART based on core it is running. Refer to PDK documentation for core-to-UART mapping.
+  If you want to use static IP configuration, edit enet_lwip_example/lwipcfg.h to enable static IP.
+- You can ping to board using this IP address
+- You can also run iperf2 test (Enet LLD app is `server`, external PC is `client`).
+
+Integrate new PHY in Enet
+*********************************
+- You need to add new PHY driver if existing PHY drivers present in enet/src/phy/* does not support PHY present on your Board.
+- Refer to PHY integration guide [|enet_phy_integration_guide|] which has details for adding support for new PHY in Enet LLD.
+
+Modify the examples to support your board configuration
+***************************************************************
+- Modify examples to change PHY address, speed (10M/100M/1G etc.) setting, mode (RMII/RGMII etc.) settings.
+- Rebuild the example and run on your board. You should be able to see data transfer happening.

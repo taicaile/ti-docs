@@ -1,0 +1,32 @@
+
+Memstat for j721s2 a72 release build...
+
+Library Name                            :         CODE         DATA          BSS
+---------------------------------------------------------------------------------
+enet.aa72fg(a72)                        :       179555        80134          780
+enetphy.aa72fg(mpu1_0)                  :        19075          322         4098
+enetsoc.aa72fg(mpu1_0)                  :         3088        72112            0
+fvid2.aa72fg(a72)                       :        21374         2256         7212
+ipc.aa72fg(mpu1_0)                      :        19510          408        10280
+ipc_baremetal.aa72fg(mpu1_0)            :        18143          408        10280
+pm_lib.aa72fg(a72)                      :         1744            0            0
+pm_lib_optimized.aa72fg(a72)            :         1744            0            0
+sciclient.aa72fg(mpu1_0)                :        30332          532          837
+sciclient_hs.aa72fg(mpu1_0)             :        30332          532          837
+ti.board.aa72fg(a72)                    :        44879        78422         5175
+ti.csl.aa72fg(a72)                      :       235212         7308         8204
+ti.csl.init.aa72fg(a72)                 :         3544            0            0
+ti.drv.gpio.aa72fg(a72)                 :         4296        10432         1285
+ti.drv.i2c.aa72fg(a72)                  :         6884          676            0
+ti.drv.mmcsd.aa72fg(a72)                :        16948          346         1032
+ti.drv.mmcsd.dma.aa72fg(a72)            :        16948          346         1032
+ti.drv.spi.aa72fg(a72)                  :        14864         4832            8
+ti.drv.spi.dma.aa72fg(a72)              :        19240         4832            8
+ti.drv.uart.aa72fg(a72)                 :        11899         1308           16
+ti.drv.uart_console.aa72fg(a72)         :         5695            0           16
+ti.drv.uart.dma.aa72fg(a72)             :        13967         1308           16
+ti.osal.nonos.aer5f(a72)                :         8277          658         2433
+udma.aa72fg(mpu1_0)                     :        83449          216            0
+---------------------------------------------------------------------------------
+Total Size                              :       810999       267388        53549
+---------------------------------------------------------------------------------

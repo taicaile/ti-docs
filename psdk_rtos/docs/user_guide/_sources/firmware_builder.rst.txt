@@ -1,0 +1,181 @@
+
+.. _firmware_builder:
+
+|request_am_name| Firmware Builder
+==================================
+
+This page is intended to be a more focused quick start guide for developers who are **ONLY** interested in updating/rebuilding
+the remote core firmware used in the Processor SDK Linux |request_am_name|.  It does **NOT** address how to build load included demos
+to run on the HLOS, and it should not be used when using QNX.
+
+If you want to build, load, and run both the firmware and HLOS demos, please **skip** this page and refer instead to the :ref:`getting_started` page for an overview of dependencies
+and entry point into the different components and demos available.  The below table summarizes the intent of this page:
+
+.. list-table:: IS/IS NOT Table
+   :header-rows: 1
+
+   * - IS intended for
+     - IS NOT intended for
+   * - Updating, building, replacing **ONLY** the remote core firmware used in |request_am_name|
+     - Non-Linux OS on MPU (e.g. QNX)
+   * -
+     - Building MPU libraries/apps
+
+
+Background
+----------
+
+The default firmware that comes packaged in the Processor SDK Linux |platform| comes from the following yocto recipe:
+
+* https://git.ti.com/cgit/jacinto-linux/meta-psdkla/tree/recipes-tisdk/ti-tisdk-firmware/ti-tisdk-firmware.bb
+
+More specifically, the prebuilt firmware is maintained as part of the following repository:
+
+* https://git.ti.com/cgit/processor-sdk/psdk_fw/
+
+The next sections outline how one would go about reproducing these firmware images from source so that one can make appropriate changes as necessary.
+
+.. _firmware_install:
+
+Install
+-------
+
+* Untar the Firmware Builder (aka. PSDK RTOS) package in your workarea.
+
+    .. code:: bash
+
+        cd ${WORKAREA}
+        tar -xf ti-processor-sdk-rtos-<soc>-<version>.tar.gz
+
+* The above ${WORKAREA}/ ti-processor-sdk-rtos-<soc>-<version> path will be referred as ${FIRMWARE_BUILDER_INSTALL_PATH} on this page.
+* (Optional) Clone the psdk_fw git repository within the ${FIRMWARE_BUILDER_INSTALL_PATH}
+
+    * This is the read-only git repository at which this prebuilt firmware is maintained.  Cloning it here will allow you to see using git
+      if there were any deltas from the prebuilt and the version that you are about to build.  It can also be the basis for a fork of this git
+      repository that you can maintain for updated yocto recipes to pull in updated versions of firmware you build.
+    * Alternatively, you can skip this step, and the firmware will still be put into this directory structure when built.
+
+    .. code:: bash
+
+        cd ${FIRMWARE_BUILDER_INSTALL_PATH}
+        git clone git://git.ti.com/processor-sdk/psdk_fw.git -b REL.PSDK.JACINTO.<release version> --depth=1
+
+Code Updates
+------------
+
+In order to verify your setup the first time, you may want to skip this step so you can confirm that the firmware you build is identical to what was released.
+Otherwise, please refer to details about some of the common reasons you may want to rebuild the firmware from the default:
+
+    * **Changes to the memory map**
+
+        * Please reference :ref:`developer_notes_memory_map` for further details on how to do this.
+    * **Need debug symbols to debug the firmware**
+
+        * Prior to running steps in :ref:`build_firmware` section below, goto the ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps/makerules/makefile_linux_arm.mak file, and in the **FIRMWARE_VARS** list, change *PROFILE=release* to *PROFILE=debug*
+        * This change will generate the debug symbol versions of the firmware that can then be used to debug the firmware using CCS. See :ref:`CCS_A72_LINUX` for more details.
+    * **Other changes/customizations needed in the firmware (adding/removing logic)**
+
+        * Refer to various sections in the appropriate components to know what changes to make based on what your are interested in.
+
+
+One-time Setup
+--------------
+
+Run the following commands in the ${FIRMWARE_BUILDER_INSTALL_PATH} path.
+
+.. code:: bash
+
+    ./sdk_builder/scripts/setup_psdk_rtos.sh --firmware_only
+
+* This will install additional ubuntu packages, as well as download some additional folders within the ${FIRMWARE_BUILDER_INSTALL_PATH}
+* As of now, this script is installing much of what might be needed for full PSDK RTOS, however, we are planning on streamlining this using the --firmware_only flag in the future.
+
+.. _build_firmware:
+
+Build Firmware
+--------------
+
+.. _local_firmware_build:
+
+* To optionally clean the firmware build, run
+
+.. code:: bash
+
+    cd ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps
+    make firmware_scrub
+
+
+* To build the firmware, run
+
+.. code:: bash
+
+    cd ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps
+    ./make_firmware.sh
+
+* This will generate all the remote core firmwares, strip them of symbols, and copy them to the ${FIRMWARE_BUILDER_INSTALL_PATH}/psdk_fw folder.
+* Feel free to review the **FIRMWARE_VARS** list in the ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps/makerules/makefile_linux_arm.mak file if you need to adjust some of the global build flags that are being used to build the firmware.
+
+.. NOTE::
+
+   The default setting of these scripts are building the firmware for the <sd-card-rootfs>/lib/firmware/vision_apps_eaik version of the firmware which is designed for use on the small form factor starter kits, not the larger EVMs.
+   If you are building the firmware for the larger EVM mentioned elsewhere in this user guide, then you will need to make the following changes in the ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps/makerules/makefile_linux_arm.mak file:
+   Change the following variable in **FIRMWARE_VARS** list: BUILD_EDGEAI=no
+
+
+Apply Updated Firmware
+----------------------
+
+There are a couple ways you can apply the updated firmware to your setup:
+
+1. **Local update directly to SD card**:
+
+    * Flash the SD card with wic image as per the Processor SDK Linux documentation.
+    * If you want to update with the locally built binaries, replace the following with the ones generated in the :ref:`build_firmware` step.
+
+        * If building the default for the starter kit boards:
+
+            .. code:: bash
+
+                cp -R ${FIRMWARE_BUILDER_INSTALL_PATH}/psdk_fw/<soc>/vision_apps_eaik/* <sd-card-rootfs>/lib/firmware/vision_apps_eaik/.
+
+        * If building with BUILD_EDGEAI=no for the EVM boards:
+
+            .. code:: bash
+
+                cp -R ${FIRMWARE_BUILDER_INSTALL_PATH}/psdk_fw/<soc>/vision_apps_evm/* <sd-card-rootfs>/lib/firmware/vision_apps_evm/.
+
+2. **Yocto**:
+
+    * If you cloned a fork of the psdk_fw repo in the :ref:`firmware_install` step, then you can simply make a commit in this repo of the updates from the :ref:`build_firmware` step, and then
+      push the update to the git server you are using.
+    * Then you can update your corresponding yocto recipe to pick up this change.  For references, the relevant recipes and repos to consider are:
+
+        * https://git.ti.com/cgit/jacinto-linux/meta-psdkla/tree/recipes-tisdk/ti-tisdk-firmware/ti-tisdk-firmware.bb
+        * https://git.ti.com/cgit/processor-sdk/psdk_repo_manifests/
+        * https://git.ti.com/cgit/processor-sdk/psdk_fw/
+
+    * After updating the yocto recipe and associated repos, you can rebuild yocto for the platform to pick up the changes and test
+
+
+Verify Updated Firmware
+-----------------------
+
+After making code changes in the Firmware builder, you can test the functionality of the firmwares with TIOVX framework using this conformance test. To run the conformance test follow the below steps.
+
+* Download the test data from this link: |fw_builder_mss|
+* Copy this test data to sd card using,
+
+    .. code:: bash
+
+        cd {FIRMWARE_BUILDER_INSTALL_PATH}
+        ./sdk_builder/scripts/install_data_set_to_sd_card.sh <data set tar ball>
+
+* Boot the EVM with this SD card. After boot, at the prompt, run the following test:
+
+    .. code:: bash
+
+        cd /opt/vision_apps
+        source ./vision_apps_init.sh
+        ./vx_app_conformance.out
+
+* This is a large test suite that will take > 20 minutes to finish and a summary report will be printed in the terminal.

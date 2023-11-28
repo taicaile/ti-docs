@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. AM68A Firmware Builder &mdash; Processor SDK RTOS J721S2</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Processor SDK RTOS J721S2" href="index.html"/>
+        <link rel="next" title="4. SDK Components" href="sdk_components_j721s2.html"/>
+        <link rel="prev" title="2.2.1.1. J721S2 Out of the Box Demos" href="out_of_box_j721s2.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <header id="tiHeader">
+    <div class="top">
+      <ul>
+        <li id="top_logo">
+          <a href="http://www.ti.com">
+            <img src="_static/img/ti_logo.png"/>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="nav"></div>
+  </header>
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Processor SDK RTOS J721S2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                09_00_01
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started_j721s2.html">2. Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. AM68A Firmware Builder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#background">3.1. Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">3.2. Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-updates">3.3. Code Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#one-time-setup">3.4. One-time Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-firmware">3.5. Build Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#apply-updated-firmware">3.6. Apply Updated Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verify-updated-firmware">3.7. Verify Updated Firmware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sdk_components_j721s2.html">4. SDK Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">5. Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evm_setup_j721s2.html">6. EVM Setup for J721S2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ccs_setup_j721s2.html">7. CCS Setup for J721S2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasheet_sdk_j721s2.html">8. Data Sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_notes.html">9. Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation_tarball.html">10. Documentation Tarball</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Processor SDK RTOS J721S2</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li><span class="section-number">3. </span>AM68A Firmware Builder</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="request-am-name-firmware-builder">
+<span id="firmware-builder"></span><h1><span class="section-number">3. </span>AM68A Firmware Builder<a class="headerlink" href="#request-am-name-firmware-builder" title="Permalink to this headline">¶</a></h1>
+<p>This page is intended to be a more focused quick start guide for developers who are <strong>ONLY</strong> interested in updating/rebuilding
+the remote core firmware used in the Processor SDK Linux AM68A.  It does <strong>NOT</strong> address how to build load included demos
+to run on the HLOS, and it should not be used when using QNX.</p>
+<p>If you want to build, load, and run both the firmware and HLOS demos, please <strong>skip</strong> this page and refer instead to the <a class="reference internal" href="getting_started_j721s2.html#getting-started"><span class="std std-ref">Getting Started</span></a> page for an overview of dependencies
+and entry point into the different components and demos available.  The below table summarizes the intent of this page:</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-number">Table 3.1 </span><span class="caption-text">IS/IS NOT Table</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>IS intended for</p></th>
+<th class="head"><p>IS NOT intended for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Updating, building, replacing <strong>ONLY</strong> the remote core firmware used in AM68A</p></td>
+<td><p>Non-Linux OS on MPU (e.g. QNX)</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>Building MPU libraries/apps</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="background">
+<h2><span class="section-number">3.1. </span>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>The default firmware that comes packaged in the Processor SDK Linux J721S2 comes from the following yocto recipe:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://git.ti.com/cgit/jacinto-linux/meta-psdkla/tree/recipes-tisdk/ti-tisdk-firmware/ti-tisdk-firmware.bb">https://git.ti.com/cgit/jacinto-linux/meta-psdkla/tree/recipes-tisdk/ti-tisdk-firmware/ti-tisdk-firmware.bb</a></p></li>
+</ul>
+<p>More specifically, the prebuilt firmware is maintained as part of the following repository:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://git.ti.com/cgit/processor-sdk/psdk_fw/">https://git.ti.com/cgit/processor-sdk/psdk_fw/</a></p></li>
+</ul>
+<p>The next sections outline how one would go about reproducing these firmware images from source so that one can make appropriate changes as necessary.</p>
+</div>
+<div class="section" id="install">
+<span id="firmware-install"></span><h2><span class="section-number">3.2. </span>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Untar the Firmware Builder (aka. PSDK RTOS) package in your workarea.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">WORKAREA</span><span class="si">}</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>ti-processor-sdk-rtos-&lt;soc&gt;-&lt;version&gt;.tar.gz
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>The above ${WORKAREA}/ ti-processor-sdk-rtos-&lt;soc&gt;-&lt;version&gt; path will be referred as ${FIRMWARE_BUILDER_INSTALL_PATH} on this page.</p></li>
+<li><p>(Optional) Clone the psdk_fw git repository within the ${FIRMWARE_BUILDER_INSTALL_PATH}</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>This is the read-only git repository at which this prebuilt firmware is maintained.  Cloning it here will allow you to see using git
+if there were any deltas from the prebuilt and the version that you are about to build.  It can also be the basis for a fork of this git
+repository that you can maintain for updated yocto recipes to pull in updated versions of firmware you build.</p></li>
+<li><p>Alternatively, you can skip this step, and the firmware will still be put into this directory structure when built.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">FIRMWARE_BUILDER_INSTALL_PATH</span><span class="si">}</span>
+git<span class="w"> </span>clone<span class="w"> </span>git://git.ti.com/processor-sdk/psdk_fw.git<span class="w"> </span>-b<span class="w"> </span>REL.PSDK.JACINTO.&lt;release<span class="w"> </span>version&gt;<span class="w"> </span>--depth<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="code-updates">
+<h2><span class="section-number">3.3. </span>Code Updates<a class="headerlink" href="#code-updates" title="Permalink to this headline">¶</a></h2>
+<p>In order to verify your setup the first time, you may want to skip this step so you can confirm that the firmware you build is identical to what was released.
+Otherwise, please refer to details about some of the common reasons you may want to rebuild the firmware from the default:</p>
+<blockquote>
+<div><ul>
+<li><p><strong>Changes to the memory map</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Please reference <a class="reference internal" href="developer_notes_memory_map.html#developer-notes-memory-map"><span class="std std-ref">Understanding and updating SDK memory map for J721S2</span></a> for further details on how to do this.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>Need debug symbols to debug the firmware</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Prior to running steps in <a class="reference internal" href="#build-firmware"><span class="std std-ref">Build Firmware</span></a> section below, goto the ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps/makerules/makefile_linux_arm.mak file, and in the <strong>FIRMWARE_VARS</strong> list, change <em>PROFILE=release</em> to <em>PROFILE=debug</em></p></li>
+<li><p>This change will generate the debug symbol versions of the firmware that can then be used to debug the firmware using CCS. See <a class="reference internal" href="ccs_setup_j721s2.html#ccs-a72-linux"><span class="std std-ref">Debugging with HLOS running on A72 (Linux / QNX)</span></a> for more details.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>Other changes/customizations needed in the firmware (adding/removing logic)</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Refer to various sections in the appropriate components to know what changes to make based on what your are interested in.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="one-time-setup">
+<h2><span class="section-number">3.4. </span>One-time Setup<a class="headerlink" href="#one-time-setup" title="Permalink to this headline">¶</a></h2>
+<p>Run the following commands in the ${FIRMWARE_BUILDER_INSTALL_PATH} path.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./sdk_builder/scripts/setup_psdk_rtos.sh<span class="w"> </span>--firmware_only
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This will install additional ubuntu packages, as well as download some additional folders within the ${FIRMWARE_BUILDER_INSTALL_PATH}</p></li>
+<li><p>As of now, this script is installing much of what might be needed for full PSDK RTOS, however, we are planning on streamlining this using the –firmware_only flag in the future.</p></li>
+</ul>
+</div>
+<div class="section" id="build-firmware">
+<span id="id1"></span><h2><span class="section-number">3.5. </span>Build Firmware<a class="headerlink" href="#build-firmware" title="Permalink to this headline">¶</a></h2>
+<ul class="simple" id="local-firmware-build">
+<li><p>To optionally clean the firmware build, run</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">FIRMWARE_BUILDER_INSTALL_PATH</span><span class="si">}</span>/vision_apps
+make<span class="w"> </span>firmware_scrub
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To build the firmware, run</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">FIRMWARE_BUILDER_INSTALL_PATH</span><span class="si">}</span>/vision_apps
+./make_firmware.sh
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This will generate all the remote core firmwares, strip them of symbols, and copy them to the ${FIRMWARE_BUILDER_INSTALL_PATH}/psdk_fw folder.</p></li>
+<li><p>Feel free to review the <strong>FIRMWARE_VARS</strong> list in the ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps/makerules/makefile_linux_arm.mak file if you need to adjust some of the global build flags that are being used to build the firmware.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default setting of these scripts are building the firmware for the &lt;sd-card-rootfs&gt;/lib/firmware/vision_apps_eaik version of the firmware which is designed for use on the small form factor starter kits, not the larger EVMs.
+If you are building the firmware for the larger EVM mentioned elsewhere in this user guide, then you will need to make the following changes in the ${FIRMWARE_BUILDER_INSTALL_PATH}/vision_apps/makerules/makefile_linux_arm.mak file:
+Change the following variable in <strong>FIRMWARE_VARS</strong> list: BUILD_EDGEAI=no</p>
+</div>
+</div>
+<div class="section" id="apply-updated-firmware">
+<h2><span class="section-number">3.6. </span>Apply Updated Firmware<a class="headerlink" href="#apply-updated-firmware" title="Permalink to this headline">¶</a></h2>
+<p>There are a couple ways you can apply the updated firmware to your setup:</p>
+<ol class="arabic">
+<li><p><strong>Local update directly to SD card</strong>:</p>
+<blockquote>
+<div><ul>
+<li><p>Flash the SD card with wic image as per the Processor SDK Linux documentation.</p></li>
+<li><p>If you want to update with the locally built binaries, replace the following with the ones generated in the <a class="reference internal" href="#build-firmware"><span class="std std-ref">Build Firmware</span></a> step.</p>
+<blockquote>
+<div><ul>
+<li><p>If building the default for the starter kit boards:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-R<span class="w"> </span><span class="si">${</span><span class="nv">FIRMWARE_BUILDER_INSTALL_PATH</span><span class="si">}</span>/psdk_fw/&lt;soc&gt;/vision_apps_eaik/*<span class="w"> </span>&lt;sd-card-rootfs&gt;/lib/firmware/vision_apps_eaik/.
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>If building with BUILD_EDGEAI=no for the EVM boards:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>-R<span class="w"> </span><span class="si">${</span><span class="nv">FIRMWARE_BUILDER_INSTALL_PATH</span><span class="si">}</span>/psdk_fw/&lt;soc&gt;/vision_apps_evm/*<span class="w"> </span>&lt;sd-card-rootfs&gt;/lib/firmware/vision_apps_evm/.
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>Yocto</strong>:</p>
+<blockquote>
+<div><ul>
+<li><p>If you cloned a fork of the psdk_fw repo in the <a class="reference internal" href="#firmware-install"><span class="std std-ref">Install</span></a> step, then you can simply make a commit in this repo of the updates from the <a class="reference internal" href="#build-firmware"><span class="std std-ref">Build Firmware</span></a> step, and then
+push the update to the git server you are using.</p></li>
+<li><p>Then you can update your corresponding yocto recipe to pick up this change.  For references, the relevant recipes and repos to consider are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://git.ti.com/cgit/jacinto-linux/meta-psdkla/tree/recipes-tisdk/ti-tisdk-firmware/ti-tisdk-firmware.bb">https://git.ti.com/cgit/jacinto-linux/meta-psdkla/tree/recipes-tisdk/ti-tisdk-firmware/ti-tisdk-firmware.bb</a></p></li>
+<li><p><a class="reference external" href="https://git.ti.com/cgit/processor-sdk/psdk_repo_manifests/">https://git.ti.com/cgit/processor-sdk/psdk_repo_manifests/</a></p></li>
+<li><p><a class="reference external" href="https://git.ti.com/cgit/processor-sdk/psdk_fw/">https://git.ti.com/cgit/processor-sdk/psdk_fw/</a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>After updating the yocto recipe and associated repos, you can rebuild yocto for the platform to pick up the changes and test</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="verify-updated-firmware">
+<h2><span class="section-number">3.7. </span>Verify Updated Firmware<a class="headerlink" href="#verify-updated-firmware" title="Permalink to this headline">¶</a></h2>
+<p>After making code changes in the Firmware builder, you can test the functionality of the firmwares with TIOVX framework using this conformance test. To run the conformance test follow the below steps.</p>
+<ul>
+<li><p>Download the test data from this link: <a href="https://www.ti.com/securesoftware/docs/autopagepreview.tsp?opnId=28089" target="_blank">FIRMWARE_BUILDER</a></p></li>
+<li><p>Copy this test data to sd card using,</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="o">{</span>FIRMWARE_BUILDER_INSTALL_PATH<span class="o">}</span>
+./sdk_builder/scripts/install_data_set_to_sd_card.sh<span class="w"> </span>&lt;data<span class="w"> </span><span class="nb">set</span><span class="w"> </span>tar<span class="w"> </span>ball&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Boot the EVM with this SD card. After boot, at the prompt, run the following test:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/opt/vision_apps
+<span class="nb">source</span><span class="w"> </span>./vision_apps_init.sh
+./vx_app_conformance.out
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>This is a large test suite that will take &gt; 20 minutes to finish and a summary report will be printed in the terminal.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sdk_components_j721s2.html" class="btn btn-neutral float-right" title="4. SDK Components" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="out_of_box_j721s2.html" class="btn btn-neutral" title="2.2.1.1. J721S2 Out of the Box Demos" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      <a href="http://www.ti.com/corp/docs/legal/copyright.shtml">&copy; Copyright 1995-2022</a>, Texas Instruments Incorporated. All rights reserved. <br>
+      <a href="http://www.ti.com/corp/docs/legal/trademark/trademrk.htm">Trademarks</a> | <a href="http://www.ti.com/corp/docs/legal/privacy.shtml">Privacy policy</a> | <a href="http://www.ti.com/corp/docs/legal/termsofuse.shtml">Terms of use</a> | <a href="http://www.ti.com/lsds/ti/legal/termsofsale.page">Terms of sale</a>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+        });
+
+      var menuHeight = window.innerHeight;
+
+      var contentOffset = $(".wy-nav-content-wrap").offset();
+      var contentHeight = $(".wy-nav-content-wrap").height();
+      var contentBottom = contentOffset.top + contentHeight;
+
+      function setNavbarTop() {
+          var scrollTop = $(window).scrollTop();
+          var maxTop = scrollTop + menuHeight;
+
+          // If past the header
+          if (scrollTop > contentOffset.top && maxTop < contentBottom) {
+            stickyTop = scrollTop - contentOffset.top;
+          } else if (maxTop > contentBottom) {
+            stickyTop = scrollTop - contentOffset.top - (maxTop - contentBottom);
+          } else {
+            stickyTop = 0;
+          }
+
+          $(".wy-nav-side").css("top", stickyTop);
+      }
+
+      $(document).ready(function() {
+        setNavbarTop();
+        $(window).scroll(function () {
+          setNavbarTop();
+        });
+      });
+  </script>
+   
+
+</body>
+</html>

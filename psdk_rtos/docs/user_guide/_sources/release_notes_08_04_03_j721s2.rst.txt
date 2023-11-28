@@ -1,0 +1,268 @@
+Release notes - 08_04_03 (Snapshot drop)
+========================================
+
+Features
+--------
+
+.. NOTE::
+
+   New features vs previous release are marked in **bold**
+
+.. IMPORTANT::
+
+   This is a snapshop drop intended to give intra-release snapshot update.
+   As such, only sanity testing was done and not all components have gotten updates from 8.4.0 release.
+   Full testing will only come as part of 8.5.0 release.
+
+.. NOTE::
+
+   Major updates in this snapshot release are as follows:
+
+    #. Several bug fixes across components (especially tiovx, vision_apps and pdk), please refer to
+       individual :ref:`sdk_components` release notes.
+    #. Bug fix for apps which use multi-channel camera (4 or more cameras) along with LDC
+    #. SafeRTOS support added
+    #. MCAL component updates
+    #. SDL added
+
+Hardware support
+^^^^^^^^^^^^^^^^
+
+#. J721S2 Alpha EVM support with Leo and Hera PMIC processor board
+#. J721S2 ES1.0 support
+#. J721S2 HS support
+#. Fusion1 RevC daughter card with UB960 FPDLink deserializer
+#. IMX390 2MP CSI2 image sensor + UB953 FPDLink serializer
+#. AR0233 2.5MP CSI2 image sensor + UB953 FPDLink serializer
+#. AR0820 8MP CSI2 image sensor + UB953 FPDLink serializer
+#. GESI(Gateway/Ethernet Switch/Industrial) daughter card (for additional ethernet and CAN ports)
+#. Infotainment daughter card (for HDMI output)
+
+Software features
+^^^^^^^^^^^^^^^^^
+
+.. IMPORTANT::
+
+   Below is a summary of key features. Refer individual :ref:`sdk_components` release notes for more details
+
+Vision Apps (ADAS, Vision, DL demos)
+""""""""""""""""""""""""""""""""""""
+
+- OpenVX based demos for ADAS, Vision, deep learning applications
+
+  - FreeRTOS on C7x, R5F and Linux/QNX on A72
+  - Integrates all major PSDK RTOS and PSDK LINUX SW components like TIDL, MMALIB, PDK, OpenVX, C7x algorithms, imaging/sensors, IPC, Linux, FreeRTOS, SPL/uboot.
+  - Integrates all major HW components like CSI2 camera, eDP/HDMI display, UART, I2C, ethernet, SD card
+
+- Deep Learning demos
+
+  - Image Classification demo
+
+    - File based
+    - Camera based
+
+  - Standalone Semantic Segmentation application
+
+    - File based
+    - Camera based
+
+  - Standalone Object Detection application
+
+    - File based
+    - Camera based
+
+  - Auto valet parking (AVP) demo
+
+    - semantic segmentation, Parking spot detect and Vehicle detect algorithms
+    - 1 channel, 3 algo mode (AVP1 demo)
+    - 3 channel, 3 algo mode - combined network for parking spot and vehicle detect (AVP2 demo)
+    - 3 channel, 5 algo mode - combined network for parking spot and vehicle detect + Three task network for Semantic Segmentation, Motion Segmentation and Depth Estimation (AVP3 demo)
+
+  - DKAZE-based Visual Localization application
+
+  - Debug support for the ability to debug intermediate layer information from TIDL node
+
+- Surround view demos
+
+  - 3D surround view using GPU on 4x 2MP 30fps live camera input
+  - 3D surround view calibration application
+
+- ADAS/Vision demos
+
+  - Dense optical flow (DOF) demo
+  - Stereo disparity engine demo
+  - Single and multi camera to display (CSI2RX + VISS + LDC + MSC + Display) demo
+  - C7x algorithm offload demo (with DMA acceleration)
+  - Multi channel codec demo utilizing CSI2RX + VISS + LDC + MSC + Display
+
+- CV Demos
+
+  - Structure from motion
+
+- OpenVX target nodes
+
+  - image pre-processing (YUV 2 RGB) nodes for DL demos
+  - image post-processing and visualization nodes for deep learning, DOF, Stereo demos
+  - lidar, radar, camera SFM nodes for PTK demos
+  - OpenGL nodes for surround view
+
+- Profiling, logging and other utility APIs
+
+- All included MCU tasks are split between MCU2_0 (VPAC HWA) and MCU2_1 (DMPAC HWA), leaving MCU3_0 and MCU3_1 free on main domain
+
+Platform Development Kit (PDK)
+""""""""""""""""""""""""""""""
+
+- RTOS device drivers running on |rtos_cores|
+- Supported drivers and modules
+
+  - ENET CPSW (2G) in MCU and Main domains, RGMII, lwIP
+  - CSL-FL (Chip support library)
+  - GPIO
+  - I2C
+  - IPC (inter processor communication)
+  - MMCSD with FATFS
+  - OSAL
+  - SBL secondary bootloader
+  - SCI Client (DMSC interface)
+  - SPI driver (SPI, OSPI)
+  - OSPI (NOR, NAND)
+  - UART
+  - UDMA and DRU
+  - VPAC and DMAC (VHWA)
+  - 2x CSI-Rx
+  - CSI-Tx
+  - DSS - DP
+  - FreeRTOS Support on R5, DSPs
+  - **SafeRTOS Support on R5, DSPs**
+
+Refer to PDK release notes |pdk_release_notes| for more details.
+
+MCU Software (MCUSW)
+""""""""""""""""""""
+- AutoSAR 4.3.1 MCAL driver and MCU1_0 example applications running on R5F (TI Arm Clang Compiler).
+- AutoSAR MCAL driver for Adc, Can, CDD IPC, Dio, Eth, Gpt, Pwm, Epwm Spi, Icu & Wdg
+- MCUSW ”boot app”
+
+TI Deep learning Product (TIDL) and MMALIB
+""""""""""""""""""""""""""""""""""""""""""
+- TensorFlow Lite Runtime with Delegate API support for heterogeneous execution on ARM+C7x_MMA
+- ONNX Runtime with Execution Provider support for heterogeneous execution on ARM+C7x_MMA
+- NEO-AI-DLR support - TVM model compilation for heterogeneous execution on ARM+C7x_MMA
+- Upgraded to exercise MMA REV2 IP enhancement features
+  - Limited support for hardware acceleration via on-the-fly padding of tensors
+  - Limited support for asymmetric quantization for TF-Lite post training quantized models
+- TIDL deep learning inference engine library running on C7x/MMA
+- Supports Caffe, ONNX, TFlite network exchange formats
+- Supported layers: Convolution, Deconvolution, Pooling, ReLU, Elt-wise, Inner product, Soft-max, and many more, refer TIDL user guide (|tidl_user_guide|)
+- TIDL network import tool and graph visualizer tool
+- Post Training Quantization options for 8-bit, 16-bit and mixed precision inference
+- Support of batch processing
+- Support for auto C7x code generation with TVM
+
+FFT Library for C7x/MMA (FFTLIB)
+""""""""""""""""""""""""""""""""
+- C7x-only kernels
+- C7x+MMA kernels
+- Note: This is packaged as a stand-alone library component, and is not integrated into any SDK level demos
+
+TI OpenVX (TIOVX)
+"""""""""""""""""
+- OpenVX v1.1 compliant implementation with graph pipelining and user data object extension support
+- OpenVX API on A72 running Linux/QNX
+- OpenVX target kernels on C7x, R5F, A72
+- OpenVX v1.1 C6x optimized kernels recompiled for C7x
+- OpenVX nodes for
+
+  - TIDL (C7x-MMA)
+  - VISS (R5F)
+  - LDC (R5F)
+  - MSC (multi-scalar) (R5F)
+  - Pyramid (using MSC) (R5F)
+  - Dense Optical Flow (R5F)
+  - Stereo Disparity Engine (R5F)
+  - BLNF (bilateral noise filter) (R5F)
+  - CSI2-RX camera (R5F)
+  - CSI2-TX (R5F)
+  - Display (eDP) (R5F)
+  - Display M2M (R5F)
+- OpenVX tutorials for getting started
+- PyTIOVX tools for target kernel code generation
+- Performance Analyzer tool for run time logging of OpenVX graphs
+- VISS node supports heterogeneous camera support
+
+Imaging
+"""""""
+- IMX390 2MP sensor driver (30/60fps) with IQ tuning
+- AR0233 2.5MP sensor driver with IQ tuning
+- AR0820 8MP sensor driver with IQ tuning
+- TI Auto-exposure and auto white-balance algorithms
+- Support for UB960 broadcast mode
+- Sensor framework supports heterogeneous camera support
+
+TI Autonomous Driving Algorithms (TIADALG)
+""""""""""""""""""""""""""""""""""""""""""
+- Image pre-processing APIs for color plane conversion and separation YUV to RGB for DL applications (C6x optimized. recompiled for C7x)
+- Camera Pose estimation API using solve pnp technique (C6x optimized. recompiled for C7x)
+- Visual localization algorithm (C6x optimized. recompiled for C7x)
+- Structure from Motion algorithm
+
+FreeRTOS
+""""""""
+- FreeRTOS for R5F and C7x
+
+Code Gen Tools (CGT)
+""""""""""""""""""""
+- TI Compiler, assembler, linker for |rtos_cores|
+- TI LLVM (CLANG) Compiler, assembler, linker for R5F
+- |separate_download|
+
+Device Support and Validation Information
+-----------------------------------------
+
++------------------------+-------------------------------+----------------------------------+-------------------------------------------+
+| SoC                    | Build Host (OS)               | Run Target (OS)                  | Test Plaform                              |
++========================+===============================+==================================+===========================================+
+| |dev_platform|         | x86_64 (Linux Ubuntu 18.04)   | |rtos_cores| running FreeRTOS    | |dev_platform| EVM with daughter cards    |
+|                        |                               |                                  |                                           |
+|                        |                               | A72 running Linux or QNX         |                                           |
++------------------------+-------------------------------+----------------------------------+-------------------------------------------+
+| PC emulation mode (1)  | x86_64 (Linux Ubuntu 18.04)   | x86_64 (Linux Ubuntu 18.04)      | x86_64 (Linux Ubuntu 18.04)               |
++------------------------+-------------------------------+----------------------------------+-------------------------------------------+
+
+\(1\) Requires download of addon package from mySecure Software
+
+
+Upgrade and Compatibility
+-------------------------
+In this section, we only highlight a few significant changes in this SDK.  For full list of upgrade and
+compatibility topics, please refer to individual components release notes :ref:`sdk_components`.
+
+
+Known Issues
+------------
+
+Refer to individual :ref:`sdk_components` release notes for known issues in each component
+
+Change Requests
+---------------
+
+.. csv-table::
+   :header: "ID", "Head Line", "Original Fix Version", "New Fix Version", "Components"
+   :widths: 20, 90, 20, 20, 25
+
+    JACINTOREQ-4892 ,Defer J7AEP OMX decoder to PSDKQA 8.5 release ,08.04.00 ,08.05.00 ,QNX
+
+..
+   Linux Reference: project = LCPD AND Platform in (j721e-evm, j721e-evm-ivi, j721e-idk-gw, j721e-hsevm) AND ErrataID is not EMPTY AND status = Closed AND (Labels not in (PLSDK_NOT_RN) OR labels is EMPTY) ORDER BY priority DESC
+   Filter used: project in (PDK, TIDL, ETHFW, PRSDK, SYSFW) AND Platform in (j721s2-evm) AND ErrataID is not EMPTY AND status = Closed and resolution = Done
+
+Errata workarounds
+^^^^^^^^^^^^^^^^^^
+
+None
+
+Additional Reports
+------------------
+
+Test reports, traceability matrix not available in this snapshot drop.

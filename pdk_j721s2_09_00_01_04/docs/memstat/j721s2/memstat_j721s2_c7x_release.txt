@@ -1,0 +1,33 @@
+
+Memstat for j721s2 c7x release build...
+
+Library Name                            :         CODE         DATA          BSS
+---------------------------------------------------------------------------------
+fvid2.ae71(c7x)                         :        23424        10150         5152
+ipc.ae71(c7x_1)                         :        28992         5957        10240
+ipc.ae71(c7x_2)                         :        28992         5957        10240
+ipc_baremetal.ae71(c7x_1)               :        26560         5782        10240
+ipc_baremetal.ae71(c7x_2)               :        26560         5782        10240
+pm_lib.ae71(c7x)                        :         2752            0            0
+pm_lib_optimized.ae71(c7x)              :         2752            0            0
+sciclient.ae71(c7x_1)                   :        36416        14497           72
+sciclient.ae71(c7x_2)                   :        36416        14497           72
+sciclient_hs.ae71(c7x_1)                :        36416        14497           72
+sciclient_hs.ae71(c7x_2)                :        36416        14497           72
+ti.board.ae71(c7x)                      :        74432        79518         4549
+ti.csl.ae71(c7x)                        :       459008        30595       131104
+ti.csl.init.ae71(c7x)                   :            0            0            0
+ti.drv.gpio.ae71(c7x)                   :         6464        10709         1152
+ti.drv.i2c.ae71(c7x)                    :         9984          820            0
+ti.drv.uart.ae71(c7x)                   :        18432         1610            0
+ti.drv.uart_console.ae71(c7x)           :         8832           67            0
+ti.drv.uart.dma.ae71(c7x)               :        21696         1610            0
+ti.kernel.freertos.ae71(c7x_1)          :        52096         1379       723184
+ti.kernel.freertos.ae71(c7x_2)          :        52096         1379       723184
+ti.osal.ae71(c7x)                       :        27712         3776       133372
+ti.osal.nonos.aer5f(c7x)                :        12288         3546            4
+udma.ae71(c7x_1)                        :       100480        15277            0
+udma.ae71(c7x_2)                        :       100480        15277            0
+---------------------------------------------------------------------------------
+Total Size                              :      1229696       257179      1762949
+---------------------------------------------------------------------------------
